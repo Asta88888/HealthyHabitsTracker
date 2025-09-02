@@ -20,4 +20,7 @@ class User(AbstractUser):
         verbose_name_plural = "Пользователи"
 
     def __str__(self):
+        """
+        Строковое представление модели пользователя.
+        """
         return self.email

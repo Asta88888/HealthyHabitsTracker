@@ -4,6 +4,9 @@ from users.models import User
 
 
 class Habit(models.Model):
+    """
+    Модель привычки.
+    """
     HABIT_FREQUENCY = [
         ("0 * * * *", "каждый час"),
         ("0 */2 * * *", "каждые 2 часа"),
@@ -34,6 +37,9 @@ class Habit(models.Model):
         verbose_name_plural = 'Привычки'
 
     def __str__(self):
+        """
+        Строковое представление модели привычки.
+        """
         time_str = self.time.strftime('%H:%M') if self.time else 'не указано'
         habit_type = 'приятная' if self.is_pleasant else 'полезная'
         return f"Я буду {self.action} в {time_str} в {self.place} ({habit_type} привычка)"

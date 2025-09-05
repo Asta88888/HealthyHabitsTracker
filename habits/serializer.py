@@ -1,11 +1,15 @@
 from rest_framework import serializers
 from habits.models import Habit
-from habits.validators import HabitValidator
+from habits.validators import validate_habit
 
 
 class HabitSerializer(serializers.ModelSerializer):
+    user = serializers.PrimaryKeyRelatedField(read_only=True)
+
     class Meta:
         model = Habit
-        fields = "__all__"
-        read_only_fields = ["user", "created_at", "last_notified_on"]
-        validators = [HabitValidator()]
+        fields = '__all__'
+
+    def validate(self, attrs):
+        validate_habit(attrs)
+        return attrs

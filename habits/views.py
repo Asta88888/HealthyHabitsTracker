@@ -9,7 +9,8 @@ from habits.serializer import HabitSerializer
 
 class HabitViewSet(ModelViewSet):
     """
-
+    ViewSet для управления привычками пользователя.
+    Позволяет создавать, просматривать, обновлять и удалять привычки.
     """
     serializer_class = HabitSerializer
     queryset = Habit.objects.all()
@@ -26,12 +27,13 @@ class HabitViewSet(ModelViewSet):
             self.permission_classes = (IsAuthenticated,)
         elif self.action in ['update', 'list', 'retrieve', 'destroy']:
             self.permission_classes = (IsOwner,)
-        return super().get_permissions
+        return super().get_permissions()
 
 
 class PublicHabitListAPIView(ListAPIView):
     """
-
+    API для получения списка публичных привычек.
+    Только для чтения, с пагинацией.
     """
     serializer_class = HabitSerializer
     queryset = Habit.objects.filter(is_public=True)

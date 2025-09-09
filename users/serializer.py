@@ -25,9 +25,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
         """
         Создание пользователя с хэшированным паролем
         """
-        user = User.objects.create_user(
-            email=validated_data["email"],
-            password=validated_data["password"],
-            is_active=True
-        )
+        user = User.objects.create(email=validated_data["email"], is_active=True)
+        user.set_password(validated_data["password"])
+        user.save()
         return user

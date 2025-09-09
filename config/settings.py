@@ -139,11 +139,15 @@ EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-# from celery.schedules import crontab
-#
-# CELERY_BEAT_SCHEDULE = {
-#     "deactivate-inactive-users-every-night": {
-#         "task": "users.tasks.deactivate_inactive_users",
-#         "schedule": crontab(hour=0, minute=0),
-#     },
-# }
+TELEGRAM_URL = 'https://api.telegram.org/bot'
+
+TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
+
+from celery.schedules import crontab
+
+CELERY_BEAT_SCHEDULE = {
+    "telegram-every-minute": {
+        "task": "habits.tasks.telegram_notification",
+        "schedule": crontab(minute=1),
+    },
+}

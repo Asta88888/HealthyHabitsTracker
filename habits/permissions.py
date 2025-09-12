@@ -6,6 +6,4 @@ class IsOwner(permissions.BasePermission):
     Проверка принадлежности пользователя к владельцам объекта.
     """
     def has_object_permission(self, request, view, obj):
-        if obj.owner == request.user:
-            return True
-        return False
+        return obj.user == request.user or obj.is_public

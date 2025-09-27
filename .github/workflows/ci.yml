@@ -86,8 +86,9 @@ jobs:
     - name: Deploy to server
       run: |
         ssh -o StrictHostKeyChecking=no ${{ secrets.SSH_USER }}@${{ secrets.SERVER_IP }} << 'EOF'
-        sudo docker pull ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
-        sudo docker stop myapp || true
-        sudo docker rm myapp || true
-        sudo docker run -d --name myapp -p 80:8000 ${{ secrets.DOCKER_HUB_USERNAME }}/myapp:${{ github.sha }}
+          cd ${{ secrets.DEPLOY_DIR }}
+          sudo docker-compose pull backend
+          sudo docker-compose up -d --build
+          sudo docker-compose exec backend python manage.py migrate
+          sudo docker-compose exec backend python manage.py collectstatic --noinput
         EOF

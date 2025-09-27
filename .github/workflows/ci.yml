@@ -43,14 +43,10 @@ jobs:
       - name: Install dependencies
         run: poetry install --no-interaction --no-root
 
-      - name: Run migrate
-        run: poetry run python manage.py migrate
-
       - name: Run tests
         run: poetry run python manage.py test
         env:
           SECRET_KEY: test_secret_key
-          DATABASE_URL: sqlite:///./test_db.sqlite3
 
   build:
     needs: test

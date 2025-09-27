@@ -1,5 +1,4 @@
-from datetime import timedelta
-
+from datetime import time as dtime, timedelta
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
@@ -14,25 +13,25 @@ class HabitTestCase(APITestCase):
         self.other_user = User.objects.create(email='other_user@example.com')
         self.pleasant_habit = Habit.objects.create(
             place='test place',
-            time='10:00',
+            time=dtime(10, 0),
             action='test action',
             is_pleasant=True,
             related_habit=None,
             periodicity_days=1,
             reward='',
-            time_to_end='00:05:00',
+            time_to_end=timedelta(minutes=5),
             is_public=True,
             user=self.user
         )
         self.public_habit = Habit.objects.create(
             place='test place',
-            time='10:00',
+            time=dtime(10, 0),
             action='test action',
             is_pleasant=True,
             related_habit=None,
             periodicity_days=1,
             reward='',
-            time_to_end='00:05:00',
+            time_to_end=timedelta(minutes=5),
             is_public=False,
             user=self.other_user
         )

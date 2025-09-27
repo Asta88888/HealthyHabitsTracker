@@ -1,6 +1,7 @@
 import os
+import sys
 from datetime import timedelta
-
+from celery.schedules import crontab
 from dotenv import load_dotenv
 from pathlib import Path
 
@@ -69,16 +70,24 @@ REST_FRAMEWORK = {
     ]
 }
 
-DATABASES = {
-    "default": {
-        "ENGINE": "django.db.backends.postgresql_psycopg2",
-        "NAME": os.getenv("POSTGRES_DB"),
-        "USER": os.getenv("POSTGRES_USER"),
-        "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
-        "HOST": os.getenv("POSTGRES_HOST"),
-        "PORT": os.getenv("POSTGRES_PORT"),
+if 'test' in sys.argv:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'test_db.sqlite3',
+        }
     }
-}
+else:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.postgresql",
+            "NAME": os.getenv("POSTGRES_DB"),
+            "USER": os.getenv("POSTGRES_USER"),
+            "PASSWORD": os.getenv("POSTGRES_PASSWORD"),
+            "HOST": os.getenv("POSTGRES_HOST"),
+            "PORT": os.getenv("POSTGRES_PORT"),
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -145,8 +154,6 @@ DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 TELEGRAM_URL = 'https://api.telegram.org/bot'
 
 TELEGRAM_TOKEN = os.getenv('TELEGRAM_TOKEN')
-
-from celery.schedules import crontab
 
 CELERY_BEAT_SCHEDULE = {
     "telegram-every-minute": {

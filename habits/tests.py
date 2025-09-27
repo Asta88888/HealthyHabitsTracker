@@ -38,7 +38,6 @@ class HabitTestCase(APITestCase):
         )
         self.client.force_authenticate(user=self.user)
 
-
     def test_habit_create_pleasant(self):
         """Проверка создания привычки полезной"""
         url = reverse('habits:habit-list')
@@ -58,7 +57,6 @@ class HabitTestCase(APITestCase):
         self.assertEqual(Habit.objects.count(), 3)
         self.assertEqual(Habit.objects.last().action, 'run')
 
-
     def test_habit_create_unpleasant(self):
         """Проверка создания привычки неполезной"""
         url = reverse('habits:habit-list')
@@ -77,7 +75,6 @@ class HabitTestCase(APITestCase):
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
         self.assertEqual(Habit.objects.count(), 3)
         self.assertEqual(Habit.objects.last().action, 'lay on sofa')
-
 
     def test_habit_retrieve(self):
         url = reverse("habits:habit-detail", args=(self.pleasant_habit.pk,))
@@ -104,7 +101,6 @@ class HabitTestCase(APITestCase):
         self.client.force_authenticate(user=None)
         response = self.client.get(url)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
-
 
     def test_habit_update(self):
         """Проверка обновления привычки"""
@@ -162,23 +158,3 @@ class HabitTestCase(APITestCase):
         response = self.client.delete(url)
         self.assertEqual(response.status_code, status.HTTP_403_FORBIDDEN)
         self.assertTrue(Habit.objects.filter(id=habit.id).exists())
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

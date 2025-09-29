@@ -12,8 +12,12 @@ class Habit(models.Model):
     time = models.TimeField(verbose_name='Время выполнения привычки')
     action = models.CharField(max_length=255, verbose_name='Действие привычки')
     is_pleasant = models.BooleanField(verbose_name='Приятная привычка', default=False)
-    related_habit = models.ForeignKey('self', on_delete=models.SET_NULL, blank=True, null=True, verbose_name='Связанная привычка', related_name='related_habits')
-    periodicity_days = models.PositiveSmallIntegerField(verbose_name='Периодичность (в днях)', default=1, help_text='Количество дней между выполнениями привычки (1–7)')
+    related_habit = models.ForeignKey(
+        'self', on_delete=models.SET_NULL, blank=True,
+        null=True, verbose_name='Связанная привычка', related_name='related_habits')
+    periodicity_days = models.PositiveSmallIntegerField(
+        verbose_name='Периодичность (в днях)', default=1,
+        help_text='Количество дней между выполнениями привычки (1–7)')
     reward = models.CharField(max_length=255, verbose_name='Вознаграждение', blank=True)
     time_to_end = models.DurationField(default=timedelta(seconds=120), verbose_name='Время на выполнение')
     is_public = models.BooleanField(default=False, verbose_name='Публичность привычки')
